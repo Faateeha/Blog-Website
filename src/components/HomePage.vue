@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import PostList from '../components/PostList.vue'
+import { onMounted, ref } from 'vue'
 
 const posts = ref([])
 const error = ref(null)
@@ -19,11 +20,7 @@ const loadPosts = async () => {
     }
 }
 
-const snippet = computed(() => {
 
-        return post.body.slice(0, 100) + '...'
-    
-})
 
 onMounted(() => {
     loadPosts()
@@ -32,19 +29,9 @@ onMounted(() => {
 
 <template>
     <h1>The Blog</h1>
-    <ul>
-        <li>
-            <div v-if="error">{{ error }}</div>
-            <div v-else>
-                <div v-for="post in posts" :key="post.id">
-                    <h2>{{ post.tittle }}</h2>
-                    <p>{{ post.body }}</p>
-                    <p>{{ post.author }}</p>
-                    <p>{{ post.date }}</p>
-                    
-                </div>
-            </div>
-            
-        </li>
-    </ul>
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length">
+        <PostList :posts="posts"  />
+    </div>
+    <div v-else>Loading</div>
 </template>
